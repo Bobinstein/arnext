@@ -65,6 +65,9 @@ export const setANTRecord = async (
   transactionId,
   ttlSeconds
 ) => {
+    console.log(`Pid: ${processId}`)
+    console.log(`name: ${name}`)
+    console.log(`txId: ${transactionId}`)
   const browserSigner = new ArconnectSigner(window.arweaveWallet);
   const ant = ANT.init({ processId, signer: browserSigner });
   const result = await ant.setRecord({

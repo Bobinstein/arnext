@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import { useParams, Link } from "@/arnext"; // Import your custom useParams
 import { useEffect, useState } from "react";
 import { IO, ANT } from "@ar.io/sdk/web";
-import { fetchRecordDetails } from "@/utils/arweave";
+import { fetchRecordDetails, setANTRecord } from "@/utils/arweave";
 
 export async function getStaticPaths() {
   return { paths: [], fallback: "blocking" };
@@ -18,8 +18,6 @@ export default function NamePage() {
   const [nameState, setNameState] = useState("");
   const [nameRecord, setNameRecord] = useState(null); // Initialize record to null
   const [arnsRecord, setArnsRecord] = useState(null);
-  const [newSubdomain, setNewSubdomain] = useState("");
-  const [newTxId, setNewTxId] = useState("");
   const [resultMessage, setResultMessage] = useState("");
   const [address, setAddress] = useState(null); // State for wallet address
 
@@ -59,25 +57,10 @@ export default function NamePage() {
   }, [nameState, nameRecord]);
 
   const handleUpdateRecord = async (key, txId) => {
-    try {
-      // Placeholder for record update logic
-      const io = IO.init();
-      await io.updateArNSRecord({ name: nameState, key, txId });
-      setResultMessage(`Record for ${key} updated successfully!`);
-
-      // Update the record state to reflect the changes
-      setRecord((prevRecord) => {
-        return {
-          ...prevRecord,
-          records: {
-            ...prevRecord.records,
-            [key]: { ...prevRecord.records[key], transactionId: txId },
-          },
-        };
-      });
-    } catch (error) {
-      setResultMessage("Failed to update the record. Please try again.");
-    }
+    const result = await setANTRecord(nameRecord.processId, key, txId, 900)
+  console.log(`result Message: ${result}`)
+  console.log(result)
+    setResultMessage(result.id)
   };
 
   if (nameRecord === null) {
@@ -127,20 +110,17 @@ export default function NamePage() {
                       <input
                         type="text"
                         placeholder="Enter new TxID"
-                        onBlur={(e) =>
-                          handleUpdateRecord(
-                            recordKey === "@" ? record.key : `${recordKey}`,
-                            e.target.value
-                          )
-                        }
+                        id={`input-${index}`}
                       />
                       <button
-                        onClick={() =>
+                        onClick={() => {
+                          const inputElement = document.getElementById(`input-${index}`);
+                          const inputValue = inputElement ? inputElement.value : "";
                           handleUpdateRecord(
                             recordKey === "@" ? "@" : `${recordKey}`,
-                            newTxId
-                          )
-                        }
+                            inputValue
+                          );
+                        }}
                       >
                         Update
                       </button>
@@ -152,17 +132,25 @@ export default function NamePage() {
               <input
                 type="text"
                 placeholder="New Subdomain"
-                value={newSubdomain}
-                onChange={(e) => setNewSubdomain(e.target.value)}
+                id={`new-subdomain-input`}
               />
               <input
                 type="text"
                 placeholder="New TxID"
-                value={newTxId}
-                onChange={(e) => setNewTxId(e.target.value)}
+                id={`new-txid-input`}
               />
               <button
-                onClick={() => handleUpdateRecord(`${newSubdomain}`, newTxId)}
+                onClick={() => {
+                  const subdomainElement = document.getElementById("new-subdomain-input");
+                  const txIdElement = document.getElementById("new-txid-input");
+            
+                  const newSubdomainValue = subdomainElement ? subdomainElement.value : "";
+                  const newTxIdValue = txIdElement ? txIdElement.value : "";
+            
+                  console.log(newSubdomainValue)
+                  console.log(newTxIdValue)
+                  handleUpdateRecord(newSubdomainValue, newTxIdValue);
+                }}
               >
                 Set New Record
               </button>
@@ -173,7 +161,7 @@ export default function NamePage() {
           <button>Back to list</button>
         </Link>
 
-        {resultMessage && <p>{resultMessage}</p>}
+        {resultMessage && <p>Successfully updated with message ID: {resultMessage}</p>}
       </div>
     </div>
   );
