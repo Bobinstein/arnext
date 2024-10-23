@@ -14,6 +14,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "@ar.io/sdk": "^2.3.1",
     "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/next-js": "^2.4.1",
     "@chakra-ui/react": "^2.10.1",
@@ -27,15 +28,19 @@
     "ramda": "^0.30.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "^6.26.2"
+    "react-router-dom": "^6.26.2",
+    "webpack": "^5.95.0"
   },
   "devDependencies": {
+    "browserify-fs": "^1.0.0",
+    "buffer": "^6.0.3",
     "@ardrive/turbo-sdk": "^1.19.0",
     "cheerio": "^1.0.0",
     "eslint": "8.57.1",
     "eslint-config-next": "14.2.13",
     "express": "^4.21.0",
     "http-proxy-middleware": "^3.0.2",
+    "process": "^0.11.10",
     "starknet": "^6.11.0"
   }
 }

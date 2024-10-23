@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { ChakraProvider } from "@chakra-ui/react"
 import { isArweave } from "@/arnext"
+import '../css/App.css'
 export default function App({ Component, pageProps }) {
   const [RouterComponent, setRouterComponent] = useState(null)
   const [ArweaveRoutes, setArweaveRoutes] = useState(null)
