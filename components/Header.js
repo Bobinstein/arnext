@@ -1,6 +1,5 @@
 import React from "react";
 import { connectWallet, truncateAddress } from "../utils/auth";
-// import Nav from "./Nav";
 
 /**
  * Header component for displaying the connect wallet button and navigation.
@@ -20,7 +19,6 @@ const Header = ({ address, setAddress }) => {
 
   return (
     <div className="header">
-      {/* <Nav /> */}
       <button className="connect-wallet" onClick={handleConnectWallet}>
         {address ? `Connected: ${truncateAddress(address)}` : "Connect Wallet"}
       </button>

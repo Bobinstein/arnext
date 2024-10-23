@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import { useParams, Link } from "@/arnext"; // Import your custom useParams
 import { useEffect, useState } from "react";
-import { IO, ANT } from "@ar.io/sdk/web";
+import { IO } from "@ar.io/sdk/web";
 import { fetchRecordDetails, setANTRecord } from "@/utils/arweave";
 
 export async function getStaticPaths() {

@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "../pages/index"
-import Post from "../pages/post/[id]"
 import NotFound from "../pages/404"
 import NamePage from "@/pages/names/[name]"
 const ArweaveRoutes = () => (
